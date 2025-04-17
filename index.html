@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" src="./styles.css">
+    <script src="app.js" defer></script>
+    <title>To-do App</title>
+</head>
+<body>
+    <form id="input-form">
+        <input id="input-title" name="title" value="" type="text" placeholder="What do you want to do?" required />
+        <input id="input-date" name="date" value="" type="date" required />
+        <button type="submit">Add</button>
+    </form>
+    <div class="todo-container">
+        <h2>Tasks</h2>
+        <ul id="todo-list">
+        </ul>
+    </div>
+</body>
+</html>
