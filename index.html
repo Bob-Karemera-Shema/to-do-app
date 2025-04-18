@@ -3,20 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" src="./styles.css">
-    <script src="app.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
     <title>To-do App</title>
 </head>
 <body>
-    <form id="input-form">
-        <input id="input-title" name="title" value="" type="text" placeholder="What do you want to do?" required />
-        <input id="input-date" name="date" value="" type="date" required />
-        <button type="submit">Add</button>
-    </form>
-    <div class="todo-container">
-        <h2>Tasks</h2>
-        <ul id="todo-list">
-        </ul>
+    <div class="container">
+        <div class="todo-app">
+            <h1 class="title">To Do</h1>
+            <form id="input-form">
+                <input id="input-title" type="text" placeholder="What's scheduled today?" required />
+                <input id="input-date" type="date" placeholder="When is it due?" required />
+                <button type="submit">Add</button>
+            </form>
+            <div class="task-list-container">
+                <ul class="task-list">
+                </ul>
+            </div>
+        </div>
     </div>
+    <script src="app.js"></script>
 </body>
 </html>
