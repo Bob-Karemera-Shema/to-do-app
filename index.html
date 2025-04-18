@@ -15,13 +15,26 @@
             <h1 class="title">To Do</h1>
             <form id="input-form">
                 <input id="input-title" type="text" placeholder="What's scheduled today?" required />
-                <input id="input-date" type="date" placeholder="When is it due?" required />
+                <input id="input-date" type="date" required />
                 <button type="submit">Add</button>
             </form>
             <div class="task-list-container">
                 <ul class="task-list">
                 </ul>
             </div>
+        </div>
+    </div>
+    <div class="overlay">
+        <div class="update-form-container">
+            <h2>Edit task</h2>
+            <form id="update-form">
+                <input id="update-title" type="text" placeholder="Changing the task?" required />
+                <input id="update-date" type="date" required />
+                <div class="update-btns">
+                    <button type="submit">Update</button>
+                    <button type="button" class="cancel-btn">Cancel</button>
+                </div>
+            </form>
         </div>
     </div>
     <script src="app.js"></script>
