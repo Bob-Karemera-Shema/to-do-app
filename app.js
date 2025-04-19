@@ -3,6 +3,27 @@ window.addEventListener('load', function () {
     const taskList = document.querySelector('#task-list');
     const inputTask = document.querySelector('#input-task');
     const inputDate = document.querySelector('#input-date');
+    const tasksArray = [];
+
+    function saveTask(task) {
+        tasksArray.push(task);
+        console.log(tasksArray);
+    }
+
+    function deleteTask(index) {
+        tasksArray.splice(index, 1);
+        console.log(tasksArray);
+    }
+
+    function editTask(task, date, index) {
+        tasksArray[index] = {task, date, completed: false};
+        console.log(tasksArray);
+    }
+
+    function markComplete(index) {
+        tasksArray[index].completed = true;
+        console.log(tasksArray);
+    }
 
     inputForm.addEventListener('submit', function (e) {
         e.preventDefault();
@@ -51,9 +72,15 @@ window.addEventListener('load', function () {
 
         task_div.appendChild(content_div);
         task_div.appendChild(btns_div);
+        task_div.id = tasksArray.length.toString();
 
         taskList.appendChild(task_div);
-
+        saveTask({
+            task, 
+            date: new Date(date), 
+            completed: false
+        });
+        
         inputTask.value = "";
         inputDate.value = "";
     });
@@ -61,12 +88,15 @@ window.addEventListener('load', function () {
     taskList.addEventListener('click', function(e) {
         if(e.target.classList[0] === 'delete') {
             const taskEl = e.target.parentElement.closest('.task');
+            deleteTask(parseInt(taskEl.id));
             taskList.removeChild(taskEl);
         } else if(e.target.classList[0] === 'toggle') {
             const taskEl = e.target.parentElement.closest('.task');
             const taskInputs = taskEl.querySelectorAll('input');
+            
             taskInputs.forEach(taskInput => {
-                taskInput.classList.toggle('completed');
+                taskInput.classList.add('completed');
+                markComplete(taskEl.id);
             });
             
             e.target.style.display = 'none';
@@ -75,6 +105,7 @@ window.addEventListener('load', function () {
         } else if(e.target.classList[0] === 'edit') {
             const taskEl = e.target.parentElement.closest('.task');
             const taskInputs = taskEl.querySelectorAll('input');
+            
             taskInputs.forEach((taskInput, index) => {
                 taskInput.removeAttribute('readonly');
                 taskInput.classList.add('editable');
@@ -89,11 +120,20 @@ window.addEventListener('load', function () {
         } else if(e.target.classList[0] === 'save') {
             const taskEl = e.target.parentElement.closest('.task');
             const taskInputs = taskEl.querySelectorAll('input');
+
+            if(!taskInputs[0].value || !taskInputs[1].value) {
+                alert('Please fill in all the fields!');
+                return;
+            };
+
+            editTask(taskInputs[0].valuea, new Date(taskInputs[1].value), taskEl.id);
+            
             taskInputs.forEach((taskInput, index) => {
                 taskInput.setAttribute('readonly', 'readonly');
                 taskInput.classList.remove('editable');
                 if(index === 1) taskInput.type = 'text';
-            })
+            });
+
             e.target.textContent = 'Edit';
             e.target.classList.remove('save');
             e.target.classList.add('edit');
