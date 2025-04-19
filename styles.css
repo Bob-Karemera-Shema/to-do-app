@@ -65,26 +65,19 @@
 
 .task {
     display: flex;
-    gap: 10px;
-    align-items: start;
-}
-
-.task>input {
-    margin-top: 7px;
-}
-
-.main {
-    display: flex;
     flex-direction: column;
-    gap: 10px;
-    flex: 1 1 0%;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    border: 1px solid rgb(242, 233, 233);
+    background-color: rgb(242, 233, 233);
 }
 
 .content {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 }
 
 .content input {
@@ -92,6 +85,15 @@
     border: none;
     color: #212121;
     padding: 5px;
+    background-color: rgb(242, 233, 233);
+}
+
+.content input.editable {
+    border-bottom: 1px solid #999999;
+}
+
+.completed {
+    text-decoration: line-through;
 }
 
 .task-btns {
@@ -102,20 +104,27 @@
 
 .task-btns button {
     padding: 5px 10px;
-    width: 80px;
+    width: 100px;
     cursor: pointer;
     border: none;
     border-radius: 2px;
     font-size: 12px;
     text-transform: uppercase;
+    color: white;
+}
+
+.toggle {
+    background-color: rgb(35, 35, 81);
 }
 
 .edit {
     background-color: rgb(255, 102, 0);
-    color: white;
+}
+
+.save {
+    background-color: purple;
 }
 
 .delete {
     background-color: red;
-    color: white;
 }
