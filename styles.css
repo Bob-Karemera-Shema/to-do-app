@@ -57,6 +57,29 @@
     cursor: pointer;
 }
 
+.options {
+    display: flex;
+    justify-content: space-between;
+}
+
+.option-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.option-label {
+    font-size: 14px;
+    color: #212121;
+}
+
+.option-select {
+    padding: 3px;
+    color: #212121;
+    border-radius: 2px;
+    width: 120px;
+}
+
 #task-list {
     display: flex;
     flex-direction: column;
