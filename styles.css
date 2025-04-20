@@ -6,7 +6,7 @@
 }
 
 .container {
-    width: 100vw;
+    width: 100%;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -26,6 +26,9 @@
 
 .title {
     text-align: center;
+    font-size: 40px;
+    font-weight: 800;
+    color: #212121;
 }
 
 #input-form {
