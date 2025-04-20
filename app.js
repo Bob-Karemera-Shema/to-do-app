@@ -20,27 +20,29 @@ function editTask(task, date, index) {
     tasksArray[index].date = new Date(date);
 }
 
-function markAsComplete(index) {
-    tasksArray[index].complete = true;
+function toggleComplete(index) {
+    tasksArray[index].completed = !tasksArray[index].completed;
 }
 
 function displayTaskList(tasks) {
     taskList.innerHTML = tasks.map((task, index) => {
-        const {title, date, completed} = task;
+        const { title, date, completed } = task;
         return `
                 <div id=${index} class="task">
                     <div class="content">
-                        <input type="text" value=${title} class=${completed ? "completed" : ""} readonly />
-                        <input type="text" value="${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate()}" class=${completed ? "completed" : ""} readonly />
+                        <input type="checkbox" class="toggle" ${completed ? 'checked' : ''} />
+                        <div class="task-fields-container">
+                            <input type="text" value="${title}" class="${completed ? "completed" : ""}" readonly />
+                            <input type="text" value="${date.getFullYear()}-${date.getMonth() + 1 < 10 ? `0${date.getMonth() + 1}` : date.getMonth() + 1}-${date.getDate()}" class="${completed ? "completed" : ""}" min="${getMinDate()}" readonly=true />
+                        </div>
                     </div>
                     <div class="task-btns">
-                        <button class="toggle" style="display:${completed ? "none" : "unset"};">Complete</button>
-                        <button class="edit" style="display:${completed ? "none" : "unset"};">Edit</button>
+                        <button class="${completed ? "edit hide" : "edit"}">Edit</button>
                         <button class="delete">Delete</button>
                     </div>
                 </div>
             `;
-}).join('');
+    }).join('');
 }
 
 function filterTaskList(e) {
@@ -65,6 +67,11 @@ function sortTaskList(e) {
         const descending = [...tasksArray].sort((a, b) => b.date - a.date);
         displayTaskList(descending);
     }
+}
+
+function getMinDate() {
+    const today = new Date(Date.now());
+    return `${today.getFullYear()}-${today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth() + 1}-${today.getDate()}`;
 }
 
 async function fetchTasks() {
@@ -102,8 +109,7 @@ inputForm.addEventListener('submit', function (e) {
     displayTaskList(tasksArray);
 });
 
-const today = new Date(Date.now());
-inputDate.min = `${today.getFullYear()}-${today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth() + 1}-${today.getDate()}`;
+inputDate.min = getMinDate();
 
 taskList.addEventListener('click', function (e) {
     if (e.target.classList[0] === 'delete') {
@@ -115,22 +121,24 @@ taskList.addEventListener('click', function (e) {
         const taskInputs = taskEl.querySelectorAll('input');
         const taskBtns = taskEl.querySelectorAll('button');
 
-        taskInputs.forEach(taskInput => taskInput.classList.add('completed'));
+        taskInputs.forEach(taskInput => taskInput.classList.toggle('completed'));
 
-        markAsComplete(taskEl.id);
+        toggleComplete(taskEl.id);
 
-        taskBtns[0].style.display = 'none';
-        taskBtns[1].style.display = 'none';
+        taskBtns[0].classList.toggle('hide');
+        console.log(taskBtns[0]);
     } else if (e.target.classList[0] === 'edit') {
         const taskEl = e.target.closest('.task');
         const taskInputs = taskEl.querySelectorAll('input');
 
         taskInputs.forEach((taskInput, index) => {
-            taskInput.removeAttribute('readonly');
-            taskInput.classList.add('editable');
+            if (index > 0) {
+                taskInput.removeAttribute('readonly');
+                taskInput.classList.add('editable');
+            }
 
-            if (index === 0) taskInput.focus();
-            if (index === 1) taskInput.type = 'date';
+            if (index === 1) taskInput.focus();
+            if (index === 2) taskInput.type = 'date';
         });
 
         e.target.textContent = 'Save';
@@ -140,17 +148,19 @@ taskList.addEventListener('click', function (e) {
         const taskEl = e.target.closest('.task');
         const taskInputs = taskEl.querySelectorAll('input');
 
-        if (!taskInputs[0].value || !taskInputs[1].value) {
+        if (!taskInputs[1].value || !taskInputs[2].value) {
             alert('Please fill in all the fields!');
             return;
         };
 
-        editTask(taskInputs[0].value, taskInputs[1].value, taskEl.id);
+        editTask(taskInputs[1].value, taskInputs[2].value, taskEl.id);
 
         taskInputs.forEach((taskInput, index) => {
-            taskInput.setAttribute('readonly', 'readonly');
-            taskInput.classList.remove('editable');
-            if (index === 1) taskInput.type = 'text';
+            if (index > 0) {
+                taskInput.setAttribute('readonly', 'readonly');
+                taskInput.classList.remove('editable');
+            }
+            if (index === 2) taskInput.type = 'text';
         });
 
         e.target.textContent = 'Edit';
