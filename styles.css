@@ -7,11 +7,12 @@
 
 .container {
     width: 100vw;
-    height: 100vh;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: rgb(242, 233, 233);
+    padding: 40px 0;
 }
 
 .todo-app {
