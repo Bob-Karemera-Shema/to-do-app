@@ -1,11 +1,11 @@
 
-const inputForm = document.querySelector('#input-form');
-const taskList = document.querySelector('#task-list');
-const filter = document.querySelector('#filter');
-const sort = document.querySelector('#sort');
-const inputTask = document.querySelector('#input-task');
-const inputDate = document.querySelector('#input-date');
-const tasksArray = [];
+const inputForm = document.querySelector('#input-form');  // input form
+const taskList = document.querySelector('#task-list');  // task list div
+const filter = document.querySelector('#filter');   // filter selector
+const sort = document.querySelector('#sort');   // sort selector
+const inputTask = document.querySelector('#input-task');    // task title input
+const inputDate = document.querySelector('#input-date');    // task date input
+const tasksArray = [];  // array to store tasks
 
 function saveTask(task) {
     tasksArray.push(task);
@@ -25,6 +25,7 @@ function toggleComplete(index) {
 }
 
 function displayTaskList(tasks) {
+    // Use template literals to dynamically display tasks
     taskList.innerHTML = tasks.map((task, index) => {
         const { title, date, completed } = task;
         return `
@@ -70,11 +71,13 @@ function sortTaskList(e) {
 }
 
 function getMinDate() {
+    // Get today's date to set restrictions on past dates
     const today = new Date(Date.now());
     return `${today.getFullYear()}-${today.getMonth() + 1 < 10 ? `0${today.getMonth() + 1}` : today.getMonth() + 1}-${today.getDate()}`;
 }
 
 async function fetchTasks() {
+    // fetch tasks stored on a remote server
     const response = await fetch('https://jsonplaceholder.typicode.com/todos');
     const data = await response.json();
 
@@ -92,6 +95,7 @@ async function fetchTasks() {
 
 fetchTasks();
 
+// Event listener for task submission
 inputForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const task = inputTask.value;
@@ -109,8 +113,11 @@ inputForm.addEventListener('submit', function (e) {
     displayTaskList(tasksArray);
 });
 
+// Set the min date for a task to avoid past dates
 inputDate.min = getMinDate();
 
+// Event listener for click event on a task
+// These can be edit, delete, complete
 taskList.addEventListener('click', function (e) {
     if (e.target.classList[0] === 'delete') {
         const taskEl = e.target.closest('.task');
@@ -169,6 +176,8 @@ taskList.addEventListener('click', function (e) {
     }
 });
 
+// Event listener for changes in the filter select element
 filter.addEventListener('change', filterTaskList);
 
+// Event listener for changes in the sort select element
 sort.addEventListener('change', sortTaskList);
